@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BackWebApi.Repositories
 {
-    public class EventLogsRepository : IEventLogsGet, IEventLogsAdd
+    public class EventLogsRepository : IEventLogsGetRepository, IEventLogsAddRepository
     {
         private readonly AppDbContext _context;
 
@@ -15,13 +15,14 @@ namespace BackWebApi.Repositories
             _context = context;
         }
 
-        public async Task AddEventLog(EventLog eventLog)
+        public async Task<EventLog> AddEventLogAsync(EventLog eventLog)
         {
             _context.EventLogs.Add(eventLog);
             await _context.SaveChangesAsync();
+            return eventLog;
         }
 
-        public async Task<List<EventLog>> GetEventLogs()
+        public async Task<List<EventLog>> GetEventLogsAsync()
         {
             return await _context.EventLogs.ToListAsync();
         }

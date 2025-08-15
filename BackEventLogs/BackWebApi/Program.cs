@@ -1,7 +1,9 @@
 using System.ComponentModel.Design;
 using BackWebApi.Data;
 using BackWebApi.Interfaces;
+using BackWebApi.Middlewares;
 using BackWebApi.Repositories;
+using BackWebApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +16,11 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-builder.Services.AddScoped<IEventLogsGet, EventLogsRepository>();
+builder.Services.AddScoped<IEventLogsAddRepository, EventLogsRepository>();
+builder.Services.AddScoped<IEventLogsGetRepository, EventLogsRepository>();
+builder.Services.AddScoped<IEventLogsServiceAdd, EventLogsService>();
+builder.Services.AddScoped<IEventLogsServiceGet, EventLogsService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -28,6 +34,8 @@ builder.Services.AddCors(options =>
 builder.Services.AddControllers();
 
 var app = builder.Build();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
