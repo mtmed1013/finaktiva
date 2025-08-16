@@ -85,6 +85,7 @@ namespace BackWebApi.Services
 
         public async Task<List<EventLogsDto>> GetAllByIdTypeAsync(int idTipo)
         {
+            EventLogsValidator.ValidateType(idTipo);
             List<EventLogsDto> data = await _eventGet.GetAllByIdTypeAsync(idTipo);
             EventLogsValidator.ValidateData(data);
             return data;

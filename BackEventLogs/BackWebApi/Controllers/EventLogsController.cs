@@ -45,6 +45,7 @@ namespace BackWebApi.Controllers
         /// </summary>
         /// <remarks>
         /// Este endpoint retorna todos los eventos disponibles por un rango de fechas.
+        /// Los parametros de las fechas deben de ser MES/DIA/AÑO (MM/dd/YYYY)
         /// </remarks>
         /// <returns>
         /// Una lista de eventos filtrados por fecha.

@@ -33,5 +33,13 @@ namespace BackWebApi.Services
                 throw new ArgumentException("Las fechas inicial y final son requeridas.");
             }
         }
+
+        public static void ValidateType(int idTipo)
+        {
+            if (idTipo == 0)
+            {
+                throw new ArgumentException("El tipo es requerido.");
+            }
+        }
     }
 }
