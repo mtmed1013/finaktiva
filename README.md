@@ -110,3 +110,11 @@ Al instalar el backend, se agregarán automáticamente los siguientes paquetes p
 -   **Swagger**: Herramienta para la documentación automática y pruebas de la API.
 
 Estos paquetes se instalan y configuran mediante el archivo de proyecto y el proceso de restauración (`dotnet restore`). No es necesario instalarlos manualmente.
+
+---
+
+## Manejo de Excepciones en el Backend
+
+El backend implementa un middleware personalizado para capturar y manejar todas las excepciones generadas en el código. Este middleware garantiza que las excepciones tengan una estructura definida y mensajes claros, facilitando la comprensión de los errores por parte del usuario.
+
+Cuando ocurre una excepción, Visual Studio puede detener la ejecución como si fuera un error crítico. Sin embargo, al continuar la ejecución, se muestra correctamente el mensaje de error controlado, permitiendo identificar la causa del fallo sin que el sistema se detenga inesperadamente. Esto asegura que los errores sean informativos y gestionados de manera consistente en toda la API.
