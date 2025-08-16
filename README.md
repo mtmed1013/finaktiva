@@ -1,85 +1,112 @@
 # Finaktiva - Prueba Técnica Event Logs
 
-Este proyecto está compuesto por un frontend desarrollado en Angular 20 y
-un backend desarrollado en .NET Core 9. A continuación, se detallan los pasos
-para instalar y ejecutar ambos.
+Este proyecto está compuesto por un frontend desarrollado en Angular 20 y un backend desarrollado en .NET Core 9. A continuación, se detallan los pasos para instalar y ejecutar ambos componentes.
 
 ---
 
 ## Funcionalidades
 
--   Registro de eventos
-    -   Permite a los usuarios registrar eventos.
--   Filtrado de eventos por fecha y por tipo de eventos
-    -   Permite a los usuarios filtrar eventos por rango de fechas y tipo de evento.
--   Visualización de eventos en una tabla los resultados del registro y Filtrado
--   Si el registro del evento se realiza de API en cosumos como Postman o swagger, el evento se registra como API.
--   Al iniciar al proyecto abrirá swagger con la documentación de la API.
+-   Registro de eventos: Permite a los usuarios registrar eventos.
+-   Filtrado de eventos por fecha y tipo: Permite filtrar eventos por rango de fechas y tipo de evento.
+-   Visualización de eventos: Muestra los resultados del registro y filtrado en una tabla.
+-   Registro de eventos vía API: Si el evento se registra mediante API (por ejemplo, usando Postman o Swagger), se identifica como evento de tipo API.
+-   Documentación automática: Al iniciar el proyecto, se abre Swagger con la documentación de la API.
 
-# Documentación
+## Documentación Interna
 
--   Internamente cada Service se realiza la documentación necesaria para cada método , con su descrión y flujo de proceso.
+Cada servicio incluye documentación detallada para cada método, con su descripción y flujo de proceso.
 
-## Requisitos previos
+---
+
+## Requisitos Previos
 
 Asegúrate de tener instalados los siguientes programas en tu sistema:
 
--   **Node.js** (versión 16 o superior) y npm (incluido con Node.js)
+-   **Node.js** (versión 19 o superior) y npm (incluido con Node.js)
 -   **Angular CLI** (versión 20 o superior):
-    `bash
-npm install -g @angular/cli
-    `
--   **Visual Studio Code o el Editor de tu preferencia**: Si se va usar este editor para
-    ejecutar el proyecto debes bajar las extensiones de .Net install tool, y se te guiara por un proceso para que descargues el sdk correspondiente a .net core 9
 
--   **Opcional (Visual Studio Community)** : Para este caso es necesario realizar instalación del .net Core 9
+    ```bash
+    npm install -g @angular/cli
+    ```
 
-# Creación de Base de datos SQL Server
+-   **Visual Studio Code** o el editor de tu preferencia. Si usas VS Code, instala la extensión ".NET Install Tool" y sigue el proceso guiado para descargar el SDK correspondiente a .NET Core 9.
+-   **Opcional: Visual Studio Community**. Para este caso, es necesario instalar .NET Core 9.
 
-En la base del proyecto se encuentra el archivo **queryDbs.sql** en SQL Server y ejecutarlo
-para la creación de la base de datos **Registration**.
+---
 
-## Instalación del proyecto
+## Creación de Base de Datos SQL Server
 
-Navega hasta la carpeta del frontend FrontEventLogs/front-event-Logs
-`bash
-cd FrontEventLogs/front-event-logs
-    `
-Instala las dependencias
-`bash
-npm install
-    `
-Inicia el servidor de desarrollo
-`bash
-npm install
-    `
+En la raíz del proyecto se encuentra el archivo **queryDbs.sql**. Ejecútalo en SQL Server para crear la base de datos **Registration**.
 
-## Instalación de .Net
+---
 
-Navega hasta la carpeta del frontend BackEventLogs/BackWebApi
-`bash
-cd BackEventLogs/BackWebApi
-    `
-Instala las dependencias
-`bash
-dotnet restore
-    `
-Configura la base de datos (si aplica):
+## Instalación del Frontend
 
-Asegúrate de que el archivo appsettings.json tenga la configuración correcta para la conexión a tu base de datos SQL Server.
+1. Navega hasta la carpeta del frontend:
 
-Inicia el servidor de desarrollo,
+    ```bash
+    cd FrontEventLogs/front-event-logs
+    ```
 
-Para MAC , desde la terminal se realiza con el siguiente comando
-`bash
-dotnet run --launch-profile https --configuration Debug
-    `
-Para windows desde la terminal se realiza con el siguiente comando
-`bash
-dotnet run
-    `
-Si es desde Visual Studio Community
+2. Instala las dependencias:
 
-1. Abre el proyecto BackWebApi en Visual Studio.
-2. Selecciona el perfil de lanzamiento adecuado (por ejemplo, IIS Express o Kestrel).
-3. Haz clic en "Iniciar" o presiona F5 para compilar y ejecutar el proyecto.
+    ```bash
+    npm install
+    ```
+
+3. Inicia el servidor de desarrollo:
+
+    ```bash
+    ng serve
+    ```
+
+---
+
+## Instalación del Backend (.NET Core)
+
+1. Navega hasta la carpeta del backend:
+
+    ```bash
+    cd BackEventLogs/BackWebApi
+    ```
+
+2. Restaura las dependencias:
+
+    ```bash
+    dotnet restore
+    ```
+
+3. Configura la base de datos:
+
+    Asegúrate de que el archivo `appsettings.json` tenga la configuración correcta para la conexión a tu base de datos SQL Server.
+
+4. Inicia el servidor de desarrollo:
+
+    - En macOS para ejecutar https y poder realizar debug:
+
+        ```bash
+        dotnet run --launch-profile https --configuration Debug
+        ```
+
+    - En Windows:
+
+        ```bash
+        dotnet run
+        ```
+
+    - Desde Visual Studio Community:
+
+        1. Abre el proyecto `BackWebApi` en Visual Studio.
+        2. Selecciona el perfil de lanzamiento adecuado (por ejemplo, IIS Express o Kestrel).
+        3. Haz clic en "Iniciar" o presiona F5 para compilar y ejecutar el proyecto.
+
+---
+
+## Paquetes Backend (.NET Core)
+
+Al instalar el backend, se agregarán automáticamente los siguientes paquetes principales:
+
+-   **Entity Framework Core**: ORM utilizado para la gestión de la base de datos SQL Server.
+-   **Swagger**: Herramienta para la documentación automática y pruebas de la API.
+
+Estos paquetes se instalan y configuran mediante el archivo de proyecto y el proceso de restauración (`dotnet restore`). No es necesario instalarlos manualmente.
