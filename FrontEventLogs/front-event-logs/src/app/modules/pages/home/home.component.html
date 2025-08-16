@@ -1,0 +1,45 @@
+<div class="grid" align="center">
+  <div class="col-12">
+    <img [src]="logo" alt="Logo" width="30%" />
+  </div>
+  <div
+    class="col-12 BodyText border border-surface shadow-lg justify-center items-center"
+  >
+    El objetivo de esta prueba técnica es implementar una aplicación de gestión
+    de eventos “Logs”. La aplicación debe permitir a los usuarios realizar las
+    siguientes acciones:
+    <ol>
+      <li>
+        Registrar un evento en la base de datos mediante un endpoint “Opcional
+        ApiGateway o de preferencia”.
+      </li>
+      <li>
+        Un formulario de registro de eventos manuales que deberán quedar
+        registradas en la base de datos y en la misma tabla de eventos
+      </li>
+      <li>
+        Consulta la información de los eventos registrados en la base de datos.
+      </li>
+      <li>
+        El formulario de consulta debe tener filtros por tipo de evento “Api o
+        Formulario de eventos manuales” y rango de fechas
+      </li>
+    </ol>
+  </div>
+  <div class="col-12 BodyText">
+    Debe definir la estructura de una tabla o colección “EventLogs” en base de
+    datos “Registration” que permita identificar la fecha de un evento, la
+    descripción de este y el tipo de evento.
+  </div>
+  <div class="col-12 BodyText">
+    Las diferentes acciones deben permitir buena transaccionalidad, manejo
+    desacoplado de la base de datos, registro de excepciones de la aplicación
+    que permitan identificar que ocurrió en caso de excepciones.
+  </div>
+  <div class="col-12 BodyText">
+    Puedes usar cualquier lenguaje de programación para el desarrollo de la
+    prueba, al igual que el motor de base de datos y el bróker de mensajería
+    idónea o de preferencia para ti. Deseable NodeJs, C# Net6, Angular, MySql,
+    SqlServer, MogoDb, AWS.
+  </div>
+</div>

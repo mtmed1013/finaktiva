@@ -1,0 +1,185 @@
+<p-toast></p-toast>
+@if(loading){
+<div class="card flex justify-center">
+  <p-progress-spinner ariaLabel="loading" />
+</div>
+} @else {
+
+<div class="grid">
+  <div class="col-12 md:col-4 mt-2">
+    <p-card>
+      <form [formGroup]="form">
+        <div class=""></div>
+        <div class="col-12 md:col-12">
+          <p-floatlabel>
+            <textarea
+              rows="5"
+              cols="30"
+              class="w-full"
+              pTextarea
+              formControlName="descripcion"
+            ></textarea>
+            <label for="over_label">¿Cuál fue el evento?</label>
+          </p-floatlabel>
+          @if (!form.get('descripcion')?.valid &&
+          form.get('descripcion')?.touched) {
+          <p-message severity="error" variant="simple" size="small"
+            >Descripción es requerida</p-message
+          >
+          }
+        </div>
+        <div class="col-12 md:col-12" align="right">
+          <p-button
+            label="Guardar"
+            icon="pi pi-check"
+            iconPos="right"
+            [disabled]="form.invalid"
+            (click)="onSave()"
+          />
+        </div>
+      </form>
+    </p-card>
+  </div>
+  <div class="col-12 md:col-8 mt-2">
+    @if(eventLogs && eventLogs.length > 0) {
+    <div class="grid">
+      <div class="col-12 md:col-12">
+        <p-card>
+          <div class="grid">
+            <div class="col-12 md:col-6 mt-2">
+              <p-floatlabel>
+                <p-select
+                  [options]="typeFilter"
+                  placeholder="Seleccione un tipo de filtro"
+                  [editable]="true"
+                  optionValue="id"
+                  optionLabel="label"
+                  [(ngModel)]="tipo"
+                  class="w-full"
+                />
+                <label for="over_label">¿Cuál es el tipo de filtro?</label>
+              </p-floatlabel>
+            </div>
+            <div class="col-12 md:col-6 mt-2">
+              @if(tipo()==1){
+              <p-floatlabel>
+                <p-select
+                  [options]="eventLogTypes"
+                  placeholder="Seleccione un tipo de evento"
+                  [editable]="true"
+                  optionValue="id"
+                  optionLabel="nombre"
+                  [(ngModel)]="selectedEventLogType"
+                  (onChange)="onEventLogTypeChange($event.value)"
+                  class="w-full"
+                />
+                <label for="over_label">¿Cuál es el tipo de evento?</label>
+              </p-floatlabel>
+              }
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
+    <p-card>
+      @if(tipo()==2){
+      <form [formGroup]="formFilters">
+        <div class="grid">
+          <div class="col-12 md:col-6">
+            <p-floatlabel>
+              <p-datepicker
+                class="w-full"
+                readonlyInput="true"
+                dateFormat="dd/mm/yy"
+                formControlName="fechaInicio"
+                (onSelect)="onDateChange()"
+              />
+              <label for="over_label">¿Cuál fue la fecha inicial?</label>
+            </p-floatlabel>
+            @if (!form.get('fechaInicio')?.valid &&
+            form.get('fechaInicio')?.touched) {
+            <p-message severity="error" variant="simple" size="small"
+              >Fecha inicial es requerida</p-message
+            >
+            }
+          </div>
+          <div class="col-12 md:col-6">
+            <p-floatlabel>
+              <p-datepicker
+                class="w-full"
+                readonlyInput="true"
+                dateFormat="dd/mm/yy"
+                formControlName="fechaFinal"
+                (onSelect)="onDateChange()"
+              />
+              <label>¿Cuál es la fecha final?</label>
+            </p-floatlabel>
+            @if (!form.get('fechaFinal')?.valid &&
+            form.get('fechaFinal')?.touched) {
+            <p-message severity="error" variant="simple" size="small"
+              >Fecha final es requerida</p-message
+            >
+            }
+          </div>
+        </div>
+      </form>
+      }
+      <div class="grid">
+        <div class="col-12 md:col-12" align="right">
+          <p-button
+            class="p-button-outlined p-button-secondary"
+            icon="pi pi-refresh"
+            label=""
+            iconPos="right"
+            pTooltip="Actualizar"
+            (click)="onRefresh()"
+          />
+        </div>
+        <div class="col-12 md:col-12"></div>
+      </div>
+      <p-table
+        [value]="eventLogs"
+        [paginator]="true"
+        [rows]="5"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [rowsPerPageOptions]="[5, 10, 20]"
+      >
+        <ng-template #header>
+          <tr>
+            <th>ID</th>
+            <th>Información</th>
+            <th>Fecha</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-eventLog>
+          <tr>
+            <td>{{ eventLog.id }}</td>
+            <td>
+              <div><b>Tipo:</b> {{ eventLog.tipo }}</div>
+              <div><b>Evento: </b>{{ eventLog.descripcion }}</div>
+            </td>
+            <td>
+              {{
+                eventLog.fechaRegistra | date : "dd/MM/yyyy HH:mm:ss" : "-0500"
+              }}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </p-card>
+    } @else {
+    <p-card>
+      <p-button
+        class="p-button-outlined p-button-secondary mt-2 mb-2"
+        icon="pi pi-refresh"
+        label=""
+        iconPos="right"
+        (click)="onRefresh()"
+        pTooltip="Actualizar"
+      />
+      <p class="text-center">No hay registros de eventos disponibles.</p>
+    </p-card>
+    }
+  </div>
+</div>
+}

@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BackWebApi</name>
+    </assembly>
+    <members>
+        <member name="T:BackWebApi.Controllers.EventLogsController">
+            <summary>
+            Controlador para la gestión de eventos de logs
+            </summary>
+        </member>
+        <member name="M:BackWebApi.Controllers.EventLogsController.GetEventLogs">
+            <summary>
+            Retorna todos los eventos sin filtrar
+            </summary>
+            <remarks>
+            Este endpoint retorna todos los eventos disponibles en el sistema.
+            </remarks>
+            <returns>
+            Una lista de todos los eventos disponibles.
+            </returns>
+            <response code="200">Retorna la lista de eventos.</response>
+            <response code="204">Si no hay eventos disponibles.</response>
+            <response code="500">Si ocurrió un error interno del servidor.</response>
+        </member>
+        <member name="M:BackWebApi.Controllers.EventLogsController.GetEventLogsByDatesAsync(BackWebApi.Dtos.DateRangeDto)">
+            <summary>
+            Retorna todos los eventos filtrados por un rango de fechas
+            </summary>
+            <remarks>
+            Este endpoint retorna todos los eventos disponibles por un rango de fechas.
+            </remarks>
+            <returns>
+            Una lista de eventos filtrados por fecha.
+            </returns>
+            <response code="200">Retorna la lista de eventos.</response>
+            <response code="204">Si no hay eventos disponibles.</response>
+            <response code="500">Si ocurrió un error interno del servidor.</response>
+        </member>
+        <member name="M:BackWebApi.Controllers.EventLogsController.GetAllByIdTypeAsync(System.Int32)">
+            <summary>
+            Retorna todos los eventos filtrados por un tipo
+            </summary>
+            <remarks>
+            Este endpoint retorna todos los eventos disponibles por un tipo
+            </remarks>
+            <returns>
+            Una lista de eventos filtrados por tipo.
+            </returns>
+            <response code="200">Retorna la lista de eventos.</response>
+            <response code="204">Si no hay eventos disponibles.</response>
+            <response code="500">Si ocurrió un error interno del servidor.</response>
+        </member>
+        <member name="M:BackWebApi.Controllers.EventLogsController.AddEventLog(BackWebApi.Dtos.EventLogsAddDto)">
+            <summary>
+            Agrega un nuevo evento al sistema
+            </summary>
+            <remarks>
+            Este endpoint permite agregar un nuevo evento al sistema.
+            </remarks>
+            <param name="dto"></param>
+            <returns>
+            El evento creado con su ID asignado.
+            </returns>
+            <response code="200">Evento creado exitosamente.</response>
+            <response code="400">Si los datos del evento son inválidos.</response>
+            <response code="500">Si ocurrió un error interno del servidor.</response>
+        </member>
+        <member name="T:BackWebApi.Controllers.EventLogsTypeController">
+            <summary>
+            Controlador para la gestión de tipos de eventos
+            </summary>
+        </member>
+        <member name="M:BackWebApi.Controllers.EventLogsTypeController.GetAllEventLogTypesAsync">
+            <summary>
+            Retorna todos los tipos de eventos sin filtrar
+            </summary>
+            <remarks>
+            Este endpoint retorna todos los tipos de eventos disponibles en el sistema.
+            </remarks>
+            <returns>
+            Una lista de tipos de eventos disponibles.
+            </returns>
+            <response code="200">Retorna la lista de tipos de eventos.</response>
+            <response code="204">Si no hay eventos disponibles.</response>
+            <response code="500">Si ocurrió un error interno del servidor.</response>
+        </member>
+    </members>
+</doc>

@@ -5,57 +5,59 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Text.Json;
 using BackWebApi.Utils;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BackWebApi.Middlewares
 {
-    public class ExceptionMiddleware
+    public class ExceptionMiddleware : IExceptionFilter
     {
-        private readonly RequestDelegate _next;
         private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(ILogger<ExceptionMiddleware> logger)
         {
-            _next = next;
             _logger = logger;
         }
-
-        public async Task InvokeAsync(HttpContext context)
+        public void OnException(ExceptionContext context)
         {
-            try
+            var ex = context.Exception;
+            _logger.LogError(ex, "Una excepción ha ocurrido");
+
+            int status;
+            string message;
+
+            if (ex is CustomException custom)
             {
-                await _next(context);
+                status = custom.StatusCode;
+                message = custom.Message;
             }
-            catch (Exception ex)
+            else
             {
-                _logger.LogError(ex, "Unhandled exception occurred.");
+                (status, message) = ex switch
+                {
+                    ArgumentNullException => ((int)HttpStatusCode.BadRequest, "Falta un argumento requerido."),
+                    ArgumentException => ((int)HttpStatusCode.BadRequest, "El argumento proporcionado no es válido."),
+                    KeyNotFoundException => ((int)HttpStatusCode.NotFound, "Recurso no encontrado."),
+                    DbUpdateException => ((int)HttpStatusCode.InternalServerError, "Ocurrió un error al actualizar la base de datos."),
+                    _ => ((int)HttpStatusCode.InternalServerError, "Ocurrió un error inesperado.")
+                };
 
-                await HandleExceptionAsync(context, ex);
+
             }
-        }
-
-        private static async Task HandleExceptionAsync(HttpContext context, Exception exception)
-        {
-            var response = context.Response;
-            response.ContentType = "application/json";
-
-            var statusCode = exception switch
-            {
-                ArgumentException => HttpStatusCode.BadRequest,
-                KeyNotFoundException => HttpStatusCode.NotFound,
-                CustomException customException => (HttpStatusCode)customException.StatusCode,
-                _ => HttpStatusCode.InternalServerError
-            };
-
             var errorResponse = new
             {
-                title = statusCode.ToString(),
-                message = exception.Message
+                title = status.ToString(),
+                message = ex.Message
             };
 
-            response.StatusCode = (int)statusCode;
-            var result = JsonSerializer.Serialize(errorResponse);
+            context.Result = new ObjectResult(errorResponse)
+            {
+                StatusCode = status,
+                ContentTypes = { "application/json" }
+            };
 
-            await response.WriteAsync(result);
+            context.ExceptionHandled = true;
         }
     }
 }
